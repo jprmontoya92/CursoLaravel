@@ -20,7 +20,8 @@ class MessageController extends Controller{
 
              Mail::to('juanpedrormm92@gmail.com')->send(new MessageReceived);
 
-         return "Mensaje Enviado";
+             //al momento de llamar al metodo back nos va a redireccionar al formulario en la vista contact 
+         return back()->with('status','Recibimos tu mensaje, te reponderemos en menos de 24 horas.');
     }
 
 }

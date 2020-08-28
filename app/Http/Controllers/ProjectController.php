@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Project;
 use Illuminate\Http\Request;
 
-use App\Http\Requests\CreateProjectRequest;
+use App\Http\Requests\SaveProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -36,10 +36,12 @@ class ProjectController extends Controller
     }
 
     public function create(){
-        return view('projects.create');
+        return view('projects.create',[
+            'project' => new Project
+        ]);
     }
 
-    public function store(CreateProjectRequest $request){
+    public function store(SaveProjectRequest $request){
 
         Project::create($request->validated());
         // validamos los campos
@@ -59,7 +61,7 @@ class ProjectController extends Controller
             'description' => request('description')
         ]);
  */
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')->with('status','El proyecto fue creado con exito');;
     }
 
     public function edit(Project $project){
@@ -69,16 +71,19 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update(Project $project){
+    public function update(Project $project, SaveProjectRequest $request){
 
-        $project->update([
-            
-            'title'       => request('title'),
-            'url'         => request('url'),
-            'description' => request('description'),
-        ]);
+        $project->update($request->validated());
 
-        return redirect()->route('projects.show',$project);
+        return redirect()->route('projects.show',$project)->with('status','El proyecto fue actualizado correctamente');
 
+    }
+
+    public function destroy(Project $project){
+
+        //utilizo route model binding
+        $project->delete();
+
+        return redirect()->route('projects.index')->with('status','El proyecto fue eliminado correctamente');
     }
 }
