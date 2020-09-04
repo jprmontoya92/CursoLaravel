@@ -5,17 +5,18 @@
 
 
 @section('content')
-    <h1>Crear un nuevo Proyecto</h1>
+    <div class="container">
+        <h1>Crear un nuevo Proyecto</h1>
 
-    @include('partials.session-status')
+         @include('partials.session-status')
   
+        <form method="POST" action="{{route('projects.store')}}">
+        
+            @include('projects._form',['btnText' => 'Guardar'])
     
-    <form method="POST" action="{{route('projects.store')}}">
+        </form>
+    </div>
     
-        @include('projects._form',['btnText' => 'Guardar'])
-
-   
-   </form>
 
 
 @endsection

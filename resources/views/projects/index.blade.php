@@ -5,30 +5,38 @@
 
 
 @section('content')
-    <h1>Portafolio</h1>
-
-    <a href="{{route('projects.create')}}"> Crear Proyecto</a>
-
-    <ul>
-    
-    
-        @forelse ($projects as $project)
-             <li><a href="{{route('projects.show',$project)}}">{{$project->title}}</a></li>
-        {{-- recibe un empty por si hay algun vacio --}}
-        @empty
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="display-4 m-0">Portafolio</h1>
+            @auth    
+                <a class="btn btn-primary" href="{{route('projects.create')}}"> Crear Proyecto</a>
+            @endauth
+        </div>
         
-            <li>No hay proyectos a mostrar</li>
+        <p class="lead text-secondary">Proyectos realizados Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente iste harum exercitationem illo minima inventore placeat, enim eum? Illo molestias at itaque quas eum ullam aliquid quam unde ea repellendus.</p>
+        
+        <ul class="list-group">
+        
+            @forelse ($projects as $project)
+                <li class="list-group-item border-0 mb-3 shadow-sm">
+                    <a class="text-secondary d-flex  justify-content-between align-items-center" href="{{route('projects.show',$project)}}">
 
-        @endforelse
+                        <span class="font-weight-bold">{{$project->title}}</span> 
 
-            {{-- {{$proyects->links()}} --}}
+                        <span class="text-black-50">{{$project->created_at->format('d/m/Y')}}</span>
+                    </a>
+                </li>
+            {{-- recibe un empty por si hay algun vacio --}}
+            @empty
+            
+                <li class="list-group-item border-0 mb-3 shadow-sm">No hay proyectos a mostrar</li>
 
-         
+            @endforelse
+                {{$projects->links()}}
+        </ul>
 
- 
-    
 
-    </ul>
-
+    </div>
+        
 
 @endsection
